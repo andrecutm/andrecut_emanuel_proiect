@@ -1,0 +1,55 @@
+﻿@page
+@model AndrecutEmanuelMedii.Pages.Wagons.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Wagon</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Wagon.TotalSeats)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Wagon.TotalSeats)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Wagon.FreeSeats)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Wagon.FreeSeats)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Wagon.Train)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.Raw(
+                @Model.Wagon.Train != null ? 
+                $"<a href='/Trains/Details?id={@Model.Wagon.Train.ID}'>{@Model.Wagon.Train.OperatingCompany} - ID: {@Model.Wagon.Train.ID}</a>" : 
+                "n/a"
+            )
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Wagon.Facilities)
+        </dt>
+        <dd class="col-sm-10">
+            @if (@Model.Wagon.Facilities != null) {
+                @for (int i = 0; i < @Model.Wagon.Facilities.Count; i++) {
+                    @Html.Raw($"{@Model.Wagon.Facilities.ElementAt(i).Name}")
+                    if (i < @Model.Wagon.Facilities.Count - 1)
+                    {
+                        @Html.Raw(", ");
+                    }
+                }
+            }
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Wagon.ID">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

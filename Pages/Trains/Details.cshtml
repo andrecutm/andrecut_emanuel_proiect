@@ -1,0 +1,84 @@
+﻿@page
+@model AndrecutEmanuelMedii.Pages.Trains.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Train</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Train.OperatingCompany)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Train.OperatingCompany)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Train.DepartureDateTime)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Train.DepartureDateTime)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Train.TrainStation)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Train.TrainStation.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Train.DestinationTrainStation)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Train.DestinationTrainStation.Name)
+        </dd>
+    </dl>
+</div>
+
+<h2>Related Wagons</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Total Seats</th>
+            <th>Free Seats</th>
+            <th>Facilities</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in @Model.Train.Wagons) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalSeats)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FreeSeats)
+            </td>
+            <td>
+                @if (item.Facilities != null) {
+                @for (int i = 0; i < item.Facilities.Count; i++) {
+                        @Html.Raw($"{item.Facilities.ElementAt(i).Name}")
+                        if (i < item.Facilities.Count - 1)
+                        {
+                            @Html.Raw(", ");
+                        }
+                    }
+                }
+            </td>
+            <td>
+                <a asp-page="/Wagons/Edit" asp-route-id="@item.ID">Edit</a> |
+                <a asp-page="/Wagons/Details" asp-route-id="@item.ID">Details</a> |
+                <a asp-page="/Wagons/Delete" asp-route-id="@item.ID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Train.ID">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>
